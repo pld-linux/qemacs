@@ -1,0 +1,26 @@
+--- qemacs/Makefile~	2007-10-30 00:19:44.533055370 +0100
++++ qemacs/Makefile	2007-10-30 00:26:41.300294975 +0100
+@@ -206,16 +206,16 @@
+ 	rm -f config.h config.mak
+ 
+ install: $(TARGETS) qe.1 kmaps ligatures
+-	install -m 755 qe$(EXE) $(prefix)/bin/qemacs
+-	ln -sf qemacs $(prefix)/bin/qe$(EXE)
++	install -D -m 755 qe$(EXE) $(DESTDIR)$(prefix)/bin/qemacs
++	ln -sf qemacs  $(DESTDIR)$(prefix)/bin/qe$(EXE)
+ ifdef CONFIG_FFMPEG
+-	ln -sf qemacs $(prefix)/bin/ffplay
++	ln -sf qemacs  $(DESTDIR)$(prefix)/bin/ffplay
+ endif
+-	mkdir -p $(prefix)/share/qe
+-	install kmaps ligatures $(prefix)/share/qe
+-	install qe.1 $(prefix)/man/man1
++	mkdir -p  $(DESTDIR)$(prefix)/share/qe
++	install kmaps ligatures  $(DESTDIR)$(prefix)/share/qe
++	install -D qe.1  $(DESTDIR)$(prefix)/man/man1/qe.1
+ ifdef CONFIG_HTML
+-	install -m 755 -s html2png$(EXE) $(prefix)/bin
++	install -m 755 html2png$(EXE)  $(DESTDIR)$(prefix)/bin
+ endif
+ 
+ TAGS: force
