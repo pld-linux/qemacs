@@ -9,6 +9,7 @@ Release:	%{_cvs}.1
 License:	LGPL
 Group:		Applications/Editors
 Source0:	http://ftp.de.debian.org/debian/pool/main/q/qemacs/%{name}_%{version}.%{_cvs}.orig.tar.gz
+# Source0-md5:	c4c8feeb1076d5b5de76e0169a2b5661
 # http://ftp.de.debian.org/debian/pool/main/q/qemacs/qemacs_0.3.1.cvs.20050713-5.diff.gz
 Patch0:		%{name}-html2png-libpng.patch
 Patch1:		%{name}-Makefile.patch
