@@ -1,5 +1,47 @@
---- qemacs/Makefile~	2007-10-30 00:19:44.533055370 +0100
-+++ qemacs/Makefile	2007-10-30 00:26:41.300294975 +0100
+diff -Nur b.qemacs/Makefile qemacs/Makefile
+--- b.qemacs/Makefile	2005-07-08 15:02:04.000000000 +0200
++++ qemacs/Makefile	2007-11-01 00:23:40.183639282 +0100
+@@ -29,17 +29,17 @@
+ #
+ CONFIG_ALL_KMAPS=y
+ 
+-CFLAGS:=-Wall -g $(CFLAGS) -funsigned-char
++override CFLAGS += -Wall -funsigned-char
+ ifdef TARGET_GPROF
+-CFLAGS+= -p
+-LDFLAGS+= -p
++override CFLAGS+= -p
++override LDFLAGS+= -p
+ endif
+ ifdef TARGET_ARCH_X86
+ #CFLAGS+=-fomit-frame-pointer
+ ifeq ($(GCC_MAJOR),2)
+-CFLAGS+=-m386 -malign-functions=0
++override CFLAGS+=-malign-functions=0
+ else
+-CFLAGS+=-march=i386 -falign-functions=0
++override CFLAGS+=-falign-functions=0
+ endif
+ endif
+ DEFINES=-DHAVE_QE_CONFIG_H
+@@ -83,7 +83,7 @@
+ ifdef CONFIG_DLL
+ LIBS+=-ldl
+ # export some qemacs symbols
+-LDFLAGS+=-Wl,-E
++override LDFLAGS+=-Wl,-E
+ endif
+ 
+ LIBS+=-lm
+@@ -136,7 +136,7 @@
+ endif
+ 
+ ifdef CONFIG_HTML
+-CFLAGS+=-I./libqhtml
++override CFLAGS+=-I./libqhtml
+ DEP_LIBS+=libqhtml/libqhtml.a 
+ LIBS+=-L./libqhtml -lqhtml
+ OBJS+=html.o docbook.o
 @@ -206,16 +206,16 @@
  	rm -f config.h config.mak
  
@@ -17,10 +59,86 @@
 -	install qe.1 $(prefix)/man/man1
 +	mkdir -p  $(DESTDIR)$(prefix)/share/qe
 +	install kmaps ligatures  $(DESTDIR)$(prefix)/share/qe
-+	install -D qe.1  $(DESTDIR)$(prefix)/man/man1/qe.1
++	install -D qe.1  $(DESTDIR)$(prefix)/share/man/man1/qemacs.1
  ifdef CONFIG_HTML
 -	install -m 755 -s html2png$(EXE) $(prefix)/bin
 +	install -m 755 html2png$(EXE)  $(DESTDIR)$(prefix)/bin
  endif
  
  TAGS: force
+diff -Nur b.qemacs/libqhtml/Makefile qemacs/libqhtml/Makefile
+--- b.qemacs/libqhtml/Makefile	2005-05-04 21:40:26.000000000 +0200
++++ qemacs/libqhtml/Makefile	2007-11-01 00:23:40.186972771 +0100
+@@ -1,19 +1,19 @@
+ include ../config.mak
+ 
+-CFLAGS:=-Wall -g $(CFLAGS)
++override CFLAGS+=-Wall
+ ifdef TARGET_GPROF
+-CFLAGS+= -p
+-LDFLAGS+= -p
++override CFLAGS+= -p
++override LDFLAGS+= -p
+ endif
+ ifdef TARGET_ARCH_X86
+ #CFLAGS+=-fomit-frame-pointer
+ ifeq ($(GCC_MAJOR),2)
+-CFLAGS+=-m386 -malign-functions=0
++override CFLAGS+=-malign-functions=0
+ else
+-CFLAGS+=-march=i386 -falign-functions=0
++override CFLAGS+=-falign-functions=0
+ endif
+ endif
+-CFLAGS+=-I..
++override CFLAGS+=-I..
+ 
+ OBJS=css.o xmlparse.o cssparse.o html_style.o docbook_style.o
+ LIB=libqhtml.a
+@@ -31,7 +31,7 @@
+ # build default style sheet file
+ #
+ csstoqe$(EXE): csstoqe.c
+-	$(HOST_CC) $(CFLAGS) -o $@ $<
++	$(CC) $(CFLAGS) -o $@ $<
+ 
+ html_style.c: html.css csstoqe$(EXE)
+ 	./csstoqe html_style < $< > $@
+diff -Nur b.qemacs/plugin-example/Makefile qemacs/plugin-example/Makefile
+--- b.qemacs/plugin-example/Makefile	2004-05-29 12:19:30.000000000 +0200
++++ qemacs/plugin-example/Makefile	2007-11-01 00:23:40.183639282 +0100
+@@ -6,7 +6,7 @@
+ #
+ 
+ # modify to get the path of the qemacs sources
+-QEMACS_PATH=../
++QEMACS_PATH=$(prefix)/include/qemacs
+ # define the name of your plugin
+ LIB=my_plugin.so
+ # define the object files it contains
+@@ -15,12 +15,13 @@
+ INCLUDES=-I$(QEMACS_PATH)
+ DEFINES=-DQE_MODULE
+ DIST_LIB:=$(HOME)/.qe/$(LIB)
+-CC=gcc
+-CFLAGS=-O2 -Wall -g -fPIC $(INCLUDES) $(DEFINES)
++override CFLAGS:=-fPIC $(INCLUDES) $(DEFINES)
+ 
+ # by default, the plugin is copied in ~/.qe/ some that qemacs can load
+ # it automatically.
+-all: $(DIST_LIB)
++# all: $(DIST_LIB)
++
++all: $(DIST)
+ 
+ $(DIST_LIB): $(LIB)
+ 	install -s -m 644 $< $@
+@@ -28,7 +29,7 @@
+ install: $(DIST_LIB)
+ 
+ $(LIB): $(OBJS) Makefile
+-	$(CC) -shared -o $@ $(OBJS)
++	$(CC) $(LDFLAGS) -shared -o $@ $(OBJS)
+ 
+ %.o: %.c
+ 	$(CC) $(CFLAGS) -c -o $@ $<
