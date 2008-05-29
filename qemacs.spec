@@ -2,7 +2,7 @@
 %define		_cvs	cvs.20050713
 #
 Summary:	A small heavy featured editor
-#Summary(pl.UTF-8):	-
+Summary(pl.UTF-8):	Mały, ciężko wyposażony edytor
 Name:		qemacs
 Version:	0.3.1
 Release:	%{_cvs}.1
@@ -26,7 +26,7 @@ Emacs look and feel. Its features include:
  - X11 support, with multiple simultaneous proportional fonts. Xft
    extension supported for anti aliased font display.
  - Highly optimized handling of huge files,
- - Full UTF8 support, including Unicode-conformant bidirectional
+ - Full UTF-8 support, including Unicode-conformant bidirectional
    editing, with Arabic and Indic scripts handling (in progress),
  - WYSIWYG HTML/XML/CSS2 mode graphical editing, with lynx-like
    rendering for VT100 terminals,
@@ -39,11 +39,35 @@ Emacs look and feel. Its features include:
    Chinese,
  - X Input methods,
  - Hexadecimal editing mode with insertion and block commands,
- - Unicode hexa editing of UTF8 files,
- - UTF8 VT100 support with double width glyphs,
- - Small (full version is 150KB big).
+ - Unicode hexa editing of UTF-8 files,
+ - UTF-8 VT100 support with double width glyphs,
+ - Small (full version is 150kB big).
 
-#%description -l pl.UTF-8
+%description -l pl.UTF-8
+QEmacs (Quick Emacs) to bardzo mały, ale potężny edytor o zachowaniu
+Emacsa. Jego możliwości obejmują:
+ - "wszystkie" główne cechy Emacsa,
+ - działanie na dowolnym terminalu VT100 bez termcapa,
+ - obsługę X11 z wieloma jednoczesnymi fontami propocjonalnymi;
+   obsługiwane jest rozszerzenie Xft dla antyaliasingu;
+ - dobrze zoptymalizowaną obsługę dużych plików,
+ - pełną obsługę UTF-8, w tym zgodną z Unikodem edycję dwukierunkową
+   wraz z obsługą alfabetów arabskich i indyjskich (w trakcie
+   rozwoju),
+ - edycję WYSIWYG HTML-a/XML-a/CSS2 w trybie graficznym, z
+   renderowaniem w stylu lynksa na terminalach VT100,
+ - tryb WYSIWYG dla DocBooka oparty na renderingu XML/CSS2,
+ - tryb C z kolorowaniem składni o natychmiastowym uaktualnianiu i
+   automatycznymi wcięciami w stylu emacsa,
+ - tryb interaktywnej powłoki wykorzystujący kolorową emulację VT100,
+ - tryb kompilacji z przechodzeniem do następnego/poprzedniego błędu,
+ - metody wprowadzania znaków dla większości języków (z edytora
+   Yudit), w tym chińskiego,
+ - metody wprowadzania znaków X Input
+ - tryb edycji szesnastkowej z wstawianiem i poleceniami blokowymi,
+ - szesnatkową edycję Unikodu w plikach UTF-8,
+ - obsługę UTF-8 na VT100 ze znakami podwójnej szerokości,
+ - niewielki rozmiar (pełna wersja ma 150kB).
 
 %prep
 %setup -q -n %{name}
@@ -51,7 +75,8 @@ Emacs look and feel. Its features include:
 %patch1 -p1
 
 %build
-CFLAGS="%{rpmcflags}" %configure \
+CFLAGS="%{rpmcflags}" \
+%configure \
 	--cc="%{__cc}" \
 	--disable-x11 \
 	--disable-xv \
@@ -62,7 +87,8 @@ CFLAGS="%{rpmcflags}" %configure \
 	LDFLAGS="%{rpmldflags}"
 mv -f qe qemacs-nox
 
-CFLAGS="%{rpmcflags}" %configure \
+CFLAGS="%{rpmcflags}" \
+%configure \
 	--cc="%{__cc}"
 
 %{__make} -j1 \
