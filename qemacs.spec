@@ -8,7 +8,7 @@ Version:	0.3.1
 Release:	%{_cvs}.1
 License:	LGPL
 Group:		Applications/Editors
-Source0:	http://ftp.de.debian.org/debian/pool/main/q/qemacs/%{name}_%{version}.%{_cvs}.orig.tar.gz
+Source0:	ftp://ftp.debian.org/debian/pool/main/q/qemacs/%{name}_%{version}.%{_cvs}.orig.tar.gz
 # Source0-md5:	c4c8feeb1076d5b5de76e0169a2b5661
 # http://ftp.de.debian.org/debian/pool/main/q/qemacs/qemacs_0.3.1.cvs.20050713-5.diff.gz
 Patch0:		%{name}-html2png-libpng.patch
@@ -52,8 +52,7 @@ Emacsa. Jego możliwości obejmują:
    obsługiwane jest rozszerzenie Xft dla antyaliasingu;
  - dobrze zoptymalizowaną obsługę dużych plików,
  - pełną obsługę UTF-8, w tym zgodną z Unikodem edycję dwukierunkową
-   wraz z obsługą alfabetów arabskich i indyjskich (w trakcie
-   rozwoju),
+   wraz z obsługą alfabetów arabskich i indyjskich (w trakcie rozwoju),
  - edycję WYSIWYG HTML-a/XML-a/CSS2 w trybie graficznym, z
    renderowaniem w stylu lynksa na terminalach VT100,
  - tryb WYSIWYG dla DocBooka oparty na renderingu XML/CSS2,
@@ -61,8 +60,8 @@ Emacsa. Jego możliwości obejmują:
    automatycznymi wcięciami w stylu emacsa,
  - tryb interaktywnej powłoki wykorzystujący kolorową emulację VT100,
  - tryb kompilacji z przechodzeniem do następnego/poprzedniego błędu,
- - metody wprowadzania znaków dla większości języków (z edytora
-   Yudit), w tym chińskiego,
+ - metody wprowadzania znaków dla większości języków (z edytora Yudit),
+   w tym chińskiego,
  - metody wprowadzania znaków X Input
  - tryb edycji szesnastkowej z wstawianiem i poleceniami blokowymi,
  - szesnatkową edycję Unikodu w plikach UTF-8,
